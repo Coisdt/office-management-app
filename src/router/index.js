@@ -4,17 +4,18 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: () => import("../views/Home.vue"),
+    component: () => import("../views/HomePage.vue"),
   },
   {
-    path: "/office-details",
+    path: "/office/:id",
     name: "OfficeDetails",
-    component: () => import("../views/OfficeDetails.vue"),
+    component: () => import("../views/OfficeDetailsPage.vue"),
+    props: true,
   },
   {
     path: "/add-office",
     name: "AddOffice",
-    component: () => import("../views/AddOffice.vue"),
+    component: () => import("../views/AddOfficePage.vue"),
   },
 ];
 
