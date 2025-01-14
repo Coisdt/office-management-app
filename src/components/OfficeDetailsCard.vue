@@ -1,6 +1,6 @@
 <template>
   <div
-    class="office-card bg-white shadow rounded-lg p-4 flex flex-col border-l-8"
+    class="office-card bg-white shadow rounded-lg p-4 flex flex-col border-l-[12px]"
     :style="{ borderColor: office.selectedColor }"
   >
     <!-- header -->
@@ -41,19 +41,19 @@
       <transition name="fade">
         <div v-if="toggleMoreInfo" class="grid gap-4 text-sm mt-4">
           <div class="grid grid-cols-1 gap-4 text-xs">
-            <div class="flex items-center">
+            <div class="grid grid-cols-[20px_1fr] items-center">
               <font-awesome-icon icon="phone" class="mr-2 text-gray-600" />
               {{ office.phoneNumber || "N/A" }}
             </div>
-            <div class="flex items-center">
+            <div class="grid grid-cols-[20px_1fr] items-center">
               <font-awesome-icon icon="envelope" class="mr-2 text-gray-600" />
               {{ office.email || "N/A" }}
             </div>
-            <div class="flex items-center">
+            <div class="grid grid-cols-[20px_1fr] items-center">
               <font-awesome-icon icon="building" class="mr-2 text-gray-600" />
               Capacity: {{ office.capacity || "N/A" }}
             </div>
-            <div class="flex items-center">
+            <div class="grid grid-cols-[20px_1fr] items-center">
               <font-awesome-icon
                 icon="map-marker-alt"
                 class="mr-2 text-gray-600"
