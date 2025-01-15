@@ -16,7 +16,7 @@
 
     <!-- search -->
     <!-- //TODO: Add search here -->
-    <Searchbar class="my-4" />
+    <!-- <Searchbar class="my-4" /> -->
 
     <!-- staff members -->
     <!-- //TODO: Add staff members here -->
