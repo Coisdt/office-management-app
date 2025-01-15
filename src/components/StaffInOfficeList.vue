@@ -9,15 +9,11 @@
       class="staff-list grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
       v-if="filteredStaffMembers.length"
     >
-      <div
+      <StaffInOfficeCard
         v-for="staffMember in filteredStaffMembers"
         :key="staffMember.id"
-        class="staff-card bg-white shadow rounded-lg p-4 flex flex-col"
-      >
-        <h3 class="text-lg font-bold">{{ staffMember.name }}</h3>
-        <p class="text-gray-600">{{ staffMember.position }}</p>
-        <p class="text-sm text-gray-500">{{ staffMember.email }}</p>
-      </div>
+        :staffMember="staffMember"
+      />
     </div>
     <div v-else>
       <p v-if="!props.office.staffMembersInOffice.length">
@@ -31,6 +27,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import Searchbar from "./Searchbar.vue";
+import StaffInOfficeCard from "./StaffInOfficeCard.vue";
 
 const props = defineProps({
   office: {

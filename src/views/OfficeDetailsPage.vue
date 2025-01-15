@@ -1,7 +1,5 @@
 <template>
   <div class="office-details-page">
-    <!-- navigation -->
-    <!-- //TODO: Add navigation here -->
     <span class="navigation relative">
       <font-awesome-icon
         @click="navigateToHome"
@@ -14,12 +12,7 @@
     <!-- office details card-->
     <OfficeDetailsCard :office="office" />
 
-    <!-- search -->
-    <!-- //TODO: Add search here -->
-    <!-- <Searchbar class="my-4" /> -->
-
     <!-- staff members -->
-    <!-- //TODO: Add staff members here -->
     <StaffInOfficeList :office="office" />
   </div>
 </template>
@@ -28,7 +21,6 @@
 import { useRoute, useRouter } from "vue-router";
 import { ref, watchEffect } from "vue";
 import OfficeDetailsCard from "../components/OfficeDetailsCard.vue";
-import Searchbar from "../components/Searchbar.vue";
 import StaffInOfficeList from "../components/StaffInOfficeList.vue";
 
 const router = useRouter();
@@ -56,18 +48,21 @@ const officeList = [
         name: "John Doe",
         position: "Manager",
         email: "john.doe@company.com",
+        imageId: 1,
       },
       {
         id: 2,
         name: "Jane Smith",
         position: "Administrator",
         email: "jane.smith@company.com",
+        imageId: 2,
       },
       {
         id: 3,
         name: "Emily Johnson",
         position: "Accountant",
         email: "emily.johnson@company.com",
+        imageId: 3,
       },
     ],
   },
