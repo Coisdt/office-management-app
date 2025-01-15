@@ -3,15 +3,14 @@ import App from "./App.vue";
 import "./assets/index.css";
 import router from "./router"; // Import the router
 
-// Import the core Font Awesome library
+// Font Awesome library
 import { library } from "@fortawesome/fontawesome-svg-core";
-
-// Import specific icons
-import { fas } from "@fortawesome/free-solid-svg-icons"; // All solid icons
-import { faCoffee } from "@fortawesome/free-solid-svg-icons"; // Specific icon
-
-// Import the FontAwesomeIcon component
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+// Vuex store
+import store from "./store";
 
 // Add icons to the library
 library.add(fas, faCoffee);
@@ -19,6 +18,6 @@ library.add(fas, faCoffee);
 const app = createApp(App);
 
 app.component("font-awesome-icon", FontAwesomeIcon);
-
-app.use(router); // Register the router
+app.use(store);
+app.use(router);
 app.mount("#app");

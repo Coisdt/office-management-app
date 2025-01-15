@@ -17,13 +17,14 @@
 import { useRouter } from "vue-router";
 import OfficeDetailsCard from "./OfficeDetailsCard.vue";
 
-defineProps({
-  offices: {
-    type: Array,
-    required: true,
-    default: () => [],
-  },
-});
+import { computed } from "vue";
+import { useStore } from "vuex";
+
+const store = useStore();
+
+const offices = computed(() => store.state.offices);
+const loading = computed(() => store.state.loading);
+const error = computed(() => store.state.error);
 
 const router = useRouter();
 
