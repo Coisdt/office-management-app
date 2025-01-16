@@ -5,7 +5,9 @@
       :src="getAvatarPath(staffMember.imageId)"
       alt="Staff Avatar"
     />
-    <h2 class="text-sm">{{ staffMember.name }}</h2>
+    <h2 class="text-sm">
+      {{ staffMember.firstName }} {{ staffMember.lastName }}
+    </h2>
     <font-awesome-icon
       @click="staffMemberOptions"
       class="absolute right-0"
@@ -27,7 +29,7 @@ let props = defineProps({
 
 // Method to handle staff member options
 const staffMemberOptions = () => {
-  console.log(`Staff member ${props.staffMember.name} options clicked`);
+  // console.log(`Staff member ${props.staffMember.name} options clicked`);
 };
 
 // Method to map the ID to the image path

@@ -18,6 +18,12 @@ const store = createStore({
     setError(state, error) {
       state.error = error;
     },
+    addStaffMember(state, { officeId, staffMember }) {
+      const office = state.offices.find((office) => office.id === officeId);
+      if (office) {
+        office.staffMembersInOffice.push(staffMember);
+      }
+    },
   },
   actions: {
     async fetchOffices({ commit }) {
@@ -31,6 +37,20 @@ const store = createStore({
       } catch (error) {
         console.error("Error fetching data:", error);
         commit("setError", error.message || "Failed to fetch offices");
+      } finally {
+        commit("setLoading", false);
+      }
+    },
+    async addStaffMember({ commit }, { officeId, staffMember }) {
+      commit("setLoading", true);
+      commit("setError", null);
+      try {
+        await axios.post(`/api/offices/${officeId}/staff`, staffMember);
+        log("Staff member added:", staffMember);
+
+        commit("addStaffMember", { officeId, staffMember });
+      } catch (error) {
+        commit("setError", error.message || "Failed to add staff member");
       } finally {
         commit("setLoading", false);
       }

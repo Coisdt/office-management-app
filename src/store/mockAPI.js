@@ -17,21 +17,24 @@ const offices = [
     staffMembersInOffice: [
       {
         id: 1,
-        name: "John Doe",
+        firstName: "John",
+        lastName: "Doe",
         position: "Manager",
         email: "john.doe@company.com",
         imageId: 1,
       },
       {
         id: 2,
-        name: "Jane Smith",
+        firstName: "Jane",
+        lastName: "Smith",
         position: "Administrator",
         email: "jane.smith@company.com",
         imageId: 2,
       },
       {
         id: 3,
-        name: "Emily Johnson",
+        firstName: "Emily",
+        lastName: "Johnson",
         position: "Accountant",
         email: "emily.johnson@company.com",
         imageId: 3,
@@ -51,14 +54,16 @@ const offices = [
     staffMembersInOffice: [
       {
         id: 4,
-        name: "Alice Brown",
+        firstName: "Alice",
+        lastName: "Brown",
         position: "Team Lead",
         email: "alice.brown@company.com",
         imageId: 4,
       },
       {
         id: 5,
-        name: "Bob White",
+        firstName: "Bob",
+        lastName: "White",
         position: "Developer",
         email: "bob.white@company.com",
         imageId: 5,
@@ -78,14 +83,16 @@ const offices = [
     staffMembersInOffice: [
       {
         id: 6,
-        name: "Catherine Green",
+        firstName: "Catherine",
+        lastName: "Green",
         position: "Designer",
         email: "catherine.green@company.com",
         imageId: 1,
       },
       {
         id: 7,
-        name: "David Black",
+        firstName: "David",
+        lastName: "Black",
         position: "Engineer",
         email: "david.black@company.com",
         imageId: 2,
@@ -105,14 +112,16 @@ const offices = [
     staffMembersInOffice: [
       {
         id: 8,
-        name: "Evelyn Gray",
+        firstName: "Evelyn",
+        lastName: "Gray",
         position: "Supervisor",
         email: "evelyn.gray@company.com",
         imageId: 3,
       },
       {
         id: 9,
-        name: "Frank Blue",
+        firstName: "Frank",
+        lastName: "Blue",
         position: "Assistant",
         email: "frank.blue@company.com",
         imageId: 4,
@@ -122,5 +131,21 @@ const offices = [
 ];
 
 mock.onGet("/api/offices").reply(200, offices);
+
+mock.onPost(/\/api\/offices\/\d+\/staff/).reply((config) => {
+  const officeId = parseInt(
+    config.url.match(/\/api\/offices\/(\d+)\/staff/)[1]
+  );
+  const newStaffMember = JSON.parse(config.data);
+
+  const office = offices.find((office) => office.id === officeId);
+  if (office) {
+    newStaffMember.id = office.staffMembersInOffice.length + 1; // Generate a new ID
+    office.staffMembersInOffice.push(newStaffMember);
+    return [200, newStaffMember];
+  } else {
+    return [404, { message: "Office not found" }];
+  }
+});
 
 export { offices };

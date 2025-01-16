@@ -11,6 +11,10 @@
 
     <OfficeDetailsCard v-if="office" :office="office" />
     <StaffInOfficeList v-if="office" :office="office" />
+    <ActionButton @click="isOpen = true" />
+    <Modal v-if="isOpen">
+      <FormModal @close="isOpen = false" :office="office" />
+    </Modal>
   </div>
 </template>
 
@@ -20,7 +24,11 @@ import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
 import OfficeDetailsCard from "../components/OfficeDetailsCard.vue";
 import StaffInOfficeList from "../components/StaffInOfficeList.vue";
+import ActionButton from "../components/buttons/ActionButton.vue";
+import Modal from "../components/modals/Modal.vue";
+import FormModal from "../components/modals/FormModal.vue";
 
+const isOpen = ref(false);
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
