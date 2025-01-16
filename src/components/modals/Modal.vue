@@ -24,7 +24,7 @@
 }
 
 .modal-content {
-  background: white;
+  background: #f8fafc;
   padding: 10px;
   border-radius: 5px;
 }
