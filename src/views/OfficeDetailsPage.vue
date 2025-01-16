@@ -6,8 +6,8 @@
         class="absolute"
         icon="arrow-left"
       />
+      <span class="grid justify-center">Office</span>
     </span>
-    <span class="grid justify-center">Offices</span>
 
     <OfficeDetailsCard v-if="office" :office="office" />
     <StaffInOfficeList v-if="office" :office="office" />

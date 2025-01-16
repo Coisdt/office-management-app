@@ -1,7 +1,7 @@
 <template>
   <Teleport to="#modals">
     <div class="modal">
-      <div class="modal-content w-[90%] md:w-[50%] lg:w-[50%]">
+      <div class="modal-content w-[90%] md:w-[50%] lg:w-[40%]">
         <slot></slot>
       </div>
     </div>
@@ -24,7 +24,7 @@
 }
 
 .modal-content {
-  background: white;
+  background: #f8fafc;
   padding: 10px;
   border-radius: 5px;
 }
