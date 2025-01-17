@@ -47,7 +47,6 @@ const store = createStore({
       try {
         await axios.post(`/api/offices/${officeId}/staff`, staffMember);
         log("Staff member added:", staffMember);
-
         commit("addStaffMember", { officeId, staffMember });
       } catch (error) {
         commit("setError", error.message || "Failed to add staff member");

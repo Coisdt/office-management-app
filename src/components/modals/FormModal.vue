@@ -124,7 +124,7 @@ function toggleNextSlide() {
 
 async function submitForm() {
   const staffMember = {
-    id: 5,
+    id: 5, //TODO: fix and make dynamic
     firstName: firstName.value,
     lastName: lastName.value,
     imageId: imageId.value,
@@ -133,12 +133,13 @@ async function submitForm() {
 
   // handle form submission
   try {
-    store.commit("addStaffMember", {
+    store.dispatch("addStaffMember", {
       officeId: props.office.id,
       staffMember,
     });
     console.log("Form submitted", staffMember);
     emit("close");
+    await store.dispatch("fetchOffices");
     // TODO: toast of success message
   } catch (error) {
     console.error("Failed to add staff member", error);

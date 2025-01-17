@@ -42,7 +42,6 @@ const handleClick = () => {
 
 <style scoped>
 button {
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 12px;
 }
 </style>
