@@ -24,6 +24,21 @@ const store = createStore({
         office.staffMembersInOffice.push(staffMember);
       }
     },
+    updateStaffMember(state, updatedStaffMember) {
+      const office = state.offices.find((office) =>
+        office.staffMembersInOffice.some(
+          (member) => member.id === updatedStaffMember.id
+        )
+      );
+      if (office) {
+        const staffMemberIndex = office.staffMembersInOffice.findIndex(
+          (member) => member.id === updatedStaffMember.id
+        );
+        if (staffMemberIndex !== -1) {
+          office.staffMembersInOffice[staffMemberIndex] = updatedStaffMember;
+        }
+      }
+    },
   },
   actions: {
     async fetchOffices({ commit }) {
@@ -53,6 +68,16 @@ const store = createStore({
       } finally {
         commit("setLoading", false);
       }
+    },
+    async editStaffMember(
+      { commit },
+      { officeId, staffMemberId, staffMember }
+    ) {
+      const response = await axios.put(
+        `/api/offices/${officeId}/staff/${staffMemberId}`,
+        staffMember
+      );
+      commit("updateStaffMember", response.data);
     },
   },
   getters: {

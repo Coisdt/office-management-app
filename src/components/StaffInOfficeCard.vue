@@ -9,15 +9,35 @@
       {{ staffMember.firstName }} {{ staffMember.lastName }}
     </h2>
     <font-awesome-icon
-      @click="staffMemberOptions"
-      class="absolute right-0"
+      @click="openModal"
+      class="absolute right-0 cursor-pointer"
       :icon="['fas', 'ellipsis-v']"
     />
+
+    <Modal v-if="isOpen" @close="closeModal">
+      <div>
+        <OptionsModal
+          v-if="isOptionsModalVisible"
+          @close="closeOptionsModal"
+          @open-new-modal="openNewModal"
+        />
+        <FormModal
+          :staffMember="staffMember"
+          :office="props.office"
+          v-if="isNewModalVisible"
+          @close="closeNewModal"
+        />
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
 import avatars from "../assets/avatars/avatars.js";
+import Modal from "../components/modals/Modal.vue";
+import OptionsModal from "./modals/OptionsModal.vue";
+import FormModal from "./modals/FormModal.vue";
 
 let props = defineProps({
   staffMember: {
@@ -25,16 +45,46 @@ let props = defineProps({
     required: true,
     default: () => [],
   },
+  office: {
+    type: Object,
+    required: true,
+    default: () => ({}),
+  },
 });
 
-// Method to handle staff member options
-const staffMemberOptions = () => {
-  // console.log(`Staff member ${props.staffMember.name} options clicked`);
-};
+const isOpen = ref(false);
+const isOptionsModalVisible = ref(true);
+const isNewModalVisible = ref(false);
 
 // Method to map the ID to the image path
 const getAvatarPath = (imageId) => {
   return avatars[imageId].src;
+};
+
+// Methods to open and close the interconnected modals
+const openModal = () => {
+  isOpen.value = true;
+  isOptionsModalVisible.value = true;
+};
+
+const closeOptionsModal = () => {
+  isOptionsModalVisible.value = false;
+};
+
+const openNewModal = () => {
+  isOptionsModalVisible.value = false;
+  isNewModalVisible.value = true;
+};
+
+const closeNewModal = () => {
+  isNewModalVisible.value = false;
+  isOpen.value = false;
+};
+
+const closeModal = () => {
+  isOpen.value = false;
+  isOptionsModalVisible.value = false;
+  isNewModalVisible.value = false;
 };
 </script>
 

@@ -9,11 +9,11 @@
       <span class="grid justify-center">Office</span>
     </span>
 
-    <OfficeDetailsCard v-if="office" :office="office" />
+    <OfficeDetailsCard v-if="office" :office="office" class="mt-4" />
     <StaffInOfficeList v-if="office" :office="office" />
     <ActionButton @click="isOpen = true" />
-    <Modal v-if="isOpen">
-      <FormModal @close="isOpen = false" :office="office" />
+    <Modal v-if="isOpen" @close="isOpen = false">
+      <FormModal :staffMember="null" :office="office" @close="isOpen = false" />
     </Modal>
   </div>
 </template>

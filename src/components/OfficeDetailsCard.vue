@@ -13,7 +13,7 @@
     <div>
       <font-awesome-icon :icon="['fas', 'users']" />
       <span class="text-sm text-gray-600 mb-4 ml-2 font-bold">
-        {{ office.occupants || 0 }}
+        {{ office.staffMembersInOffice.length || 0 }}
       </span>
       <span class="text-sm text-gray-600 mb-4 ml-2"
         >Staff Members in Office</span

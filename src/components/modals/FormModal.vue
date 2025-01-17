@@ -1,119 +1,129 @@
 <template>
-  <div class="modal-content relative">
-    <div v-if="nextSlide">
-      <!-- navigation -->
-      <span
-        class="close absolute right-1 top-0 border border-black rounded-full shadow-lg size-6"
-        @click="closeModal"
-        ><font-awesome-icon
-          class="absolute top-[5px] right-[5px] size-3 cursor-pointer"
-          :icon="['fas', 'times']"
-      /></span>
-      <h2 class="font-bold text-xl">New Staff Member</h2>
+  <div v-if="nextSlide">
+    <h2 class="font-bold text-xl">
+      {{ props.staffMember ? "Edit Staff Member" : "New Staff Member" }}
+    </h2>
 
-      <!-- form slide-->
-      <form class="p-3" @submit.prevent="handleSubmit">
-        <div class="form-group my-2 bg-white rounded-md h-10 grid items-center">
-          <!-- <label for="firstName">Name</label> -->
-          <input
-            class="ml-2"
-            type="text"
-            id="firstName"
-            required
-            v-model="firstName"
-            placeholder="First name"
-          />
-        </div>
-        <div class="form-group my-2 bg-white rounded-md h-10 grid items-center">
-          <!-- <label for="lastName">Last Name</label> -->
-          <input
-            class="ml-2"
-            type="text"
-            id="lastName"
-            required
-            v-model="lastName"
-            placeholder="Last name"
-          />
-        </div>
-      </form>
-      <div class="carousel-dots">
-        <span class="dot active"></span>
-        <span class="dot"></span>
-      </div>
-
-      <!-- next slide -->
-      <div class="modal-actions mt-4">
-        <Button :text="'NEXT'" @click="toggleNextSlide" />
-      </div>
-    </div>
-    <!-- choose avatar slide-->
-    <div v-else>
-      <!-- navigation -->
-      <span class="navigation grid grid-cols-[auto_1fr] items-center gap-2">
-        <font-awesome-icon
-          class="cursor-pointer"
-          @click="navigateBack"
-          icon="arrow-left"
+    <!-- Form Slide -->
+    <form class="p-3" @submit.prevent="handleSubmit">
+      <div class="form-group my-2 bg-white rounded-md h-10 grid items-center">
+        <input
+          class="ml-2"
+          type="text"
+          id="firstName"
+          required
+          v-model="firstName"
+          placeholder="First name"
         />
-        <h2 class="font-bold text-xl">New Staff Member</h2>
-      </span>
-      <span
-        class="close absolute right-1 top-0 border border-black rounded-full shadow-lg size-6"
-        @click="closeModal"
-        ><font-awesome-icon
-          class="absolute top-[5px] right-[5px] size-3"
-          :icon="['fas', 'times']"
-      /></span>
+      </div>
+      <div class="form-group my-2 bg-white rounded-md h-10 grid items-center">
+        <input
+          class="ml-2"
+          type="text"
+          id="lastName"
+          required
+          v-model="lastName"
+          placeholder="Last name"
+        />
+      </div>
+    </form>
+    <div class="carousel-dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+    </div>
 
-      <!-- avatar picker -->
-      <div class="avatars-container p-4">
-        <div
-          v-for="avatar in avatars"
-          :key="avatar.id"
-          :class="['avatar', { selected: imageId === avatar.id - 1 }]"
-        >
-          <img
-            :src="avatar.src"
-            :alt="'Avatar ' + avatar.id"
-            @click="imageId = avatar.id - 1"
-          />
-        </div>
-      </div>
-      <div class="carousel-dots mb-4">
-        <span class="dot"></span>
-        <span class="dot active"></span>
-      </div>
-      <Button :text="'ADD STAFF MEMBER'" @click="submitForm" />
+    <!-- Next Slide -->
+    <div class="modal-actions mt-4">
+      <FormButton
+        :text="props.staffMember ? 'NEXT' : 'ADD STAFF MEMBER'"
+        @click="toggleNextSlide"
+      />
     </div>
   </div>
-</template>
+  <!-- Choose Avatar Slide -->
+  <div v-else>
+    <span class="navigation grid grid-cols-[auto_1fr] items-center gap-2">
+      <font-awesome-icon
+        class="cursor-pointer"
+        @click="navigateBack"
+        icon="arrow-left"
+      />
+      <h2 class="font-bold text-xl">
+        {{ props.staffMember ? "Edit Staff Member" : "New Staff Member" }}
+      </h2>
+    </span>
 
+    <div class="avatars-container p-4">
+      <div
+        v-for="avatar in avatars"
+        :key="avatar.id"
+        :class="['avatar', { selected: imageId === avatar.id - 1 }]"
+      >
+        <img
+          :src="avatar.src"
+          :alt="'Avatar ' + avatar.id"
+          @click="imageId = avatar.id - 1"
+        />
+      </div>
+    </div>
+    <div class="carousel-dots mb-4">
+      <span class="dot"></span>
+      <span class="dot active"></span>
+    </div>
+    <FormButton
+      :text="props.staffMember ? 'UPDATE STAFF MEMBER' : 'ADD STAFF MEMBER'"
+      @click="submitForm"
+    />
+  </div>
+</template>
 <script setup>
-import { defineEmits, ref } from "vue";
-import Button from "../buttons/FormButton.vue";
+import { defineEmits, ref, watch } from "vue";
+import FormButton from "../buttons/FormButton.vue";
 import { useStore } from "vuex";
 import avatars from "../../assets/avatars/avatars.js";
 
 const emit = defineEmits(["close"]);
-const nextSlide = ref(true);
-const firstName = ref("");
-const lastName = ref("");
-const imageId = ref("");
-const store = useStore();
-// const officeId = ref(1); //TODO: fix and make dynamic
 
+// Props
 const props = defineProps({
   office: {
     type: Object,
     required: true,
     default: () => ({}),
   },
+  staffMember: {
+    type: Object,
+    default: null, // Null when creating a new staff member
+  },
 });
 
-function closeModal() {
-  emit("close");
-}
+// Data
+const nextSlide = ref(true);
+const firstName = ref("");
+const lastName = ref("");
+const imageId = ref("");
 
+// Store
+const store = useStore();
+
+// Watch for changes in the staffMember prop
+watch(
+  () => props.staffMember,
+  (newVal) => {
+    if (newVal) {
+      firstName.value = newVal.firstName || "";
+      lastName.value = newVal.lastName || "";
+      imageId.value = newVal.imageId || "";
+    } else {
+      firstName.value = "";
+      lastName.value = "";
+      imageId.value = "";
+    }
+  },
+  { immediate: true } // Run immediately on component mount
+);
+
+// Methods
 function navigateBack() {
   nextSlide.value = !nextSlide.value;
 }
@@ -123,34 +133,37 @@ function toggleNextSlide() {
 }
 
 async function submitForm() {
-  const staffMember = {
-    id: 5, //TODO: fix and make dynamic
+  const staffMemberData = {
     firstName: firstName.value,
     lastName: lastName.value,
     imageId: imageId.value,
   };
-  console.log(staffMember);
 
-  // handle form submission
   try {
-    store.dispatch("addStaffMember", {
-      officeId: props.office.id,
-      staffMember,
-    });
-    console.log("Form submitted", staffMember);
+    if (props.staffMember) {
+      // Editing existing staff member
+      store.dispatch("editStaffMember", {
+        officeId: props.office.id,
+        staffMemberId: props.staffMember.id,
+        staffMember: staffMemberData,
+      });
+    } else {
+      // Creating a new staff member
+      store.dispatch("addStaffMember", {
+        officeId: props.office.id,
+        staffMember: staffMemberData,
+      });
+    }
+
+    // Success feedback
+    console.log("Form submitted", staffMemberData);
     emit("close");
     await store.dispatch("fetchOffices");
-    // TODO: toast of success message
   } catch (error) {
-    console.error("Failed to add staff member", error);
-    // TODO: toast of error message
+    console.error("Failed to submit form", error);
   }
-
-  console.log("Form submitted");
-  emit("close");
 }
 </script>
-
 <style lang="css" scoped>
 .avatars-container {
   display: flex;

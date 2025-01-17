@@ -148,4 +148,28 @@ mock.onPost(/\/api\/offices\/\d+\/staff/).reply((config) => {
   }
 });
 
+mock.onPut(/\/api\/offices\/\d+\/staff\/\d+/).reply((config) => {
+  const match = config.url.match(/\/api\/offices\/(\d+)\/staff\/(\d+)/);
+  const officeId = parseInt(match[1]);
+  const staffMemberId = parseInt(match[2]);
+  const updatedStaffMember = JSON.parse(config.data);
+
+  const office = offices.find((office) => office.id === officeId);
+  if (office) {
+    const staffMemberIndex = office.staffMembersInOffice.findIndex(
+      (member) => member.id === staffMemberId
+    );
+    if (staffMemberIndex !== -1) {
+      office.staffMembersInOffice[staffMemberIndex] = {
+        ...office.staffMembersInOffice[staffMemberIndex],
+        ...updatedStaffMember,
+      };
+      return [200, office.staffMembersInOffice[staffMemberIndex]];
+    } else {
+      return [404, { message: "Staff member not found" }];
+    }
+  } else {
+    return [404, { message: "Office not found" }];
+  }
+});
 export { offices };
