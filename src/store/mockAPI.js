@@ -9,7 +9,7 @@ const offices = [
     name: "Main Office",
     description: "Headquarters",
     occupants: 10,
-    selectedColor: "#489DDA",
+    selectedColor: 9,
     phoneNumber: "123 456 7890",
     address: "123 Main St, Cityville, Country",
     email: "mainoffice@company.com",
@@ -46,7 +46,7 @@ const offices = [
     name: "Branch A",
     description: "Downtown office",
     occupants: 5,
-    selectedColor: "#FF9B71",
+    selectedColor: 2,
     phoneNumber: "234 567 8901",
     address: "456 Elm St, Downtown, Country",
     email: "brancha@company.com",
@@ -75,7 +75,7 @@ const offices = [
     name: "Branch B",
     description: "Suburban office",
     occupants: 8,
-    selectedColor: "#DBBADD",
+    selectedColor: 5,
     phoneNumber: "345 678 9012",
     address: "789 Oak St, Suburbia, Country",
     email: "branchb@company.com",
@@ -104,7 +104,7 @@ const offices = [
     name: "Branch C",
     description: "Rural office",
     occupants: 3,
-    selectedColor: "#A9F0D1",
+    selectedColor: 7,
     phoneNumber: "456 789 0123",
     address: "101 Pine St, Countryside, Country",
     email: "branchc@company.com",
@@ -130,8 +130,43 @@ const offices = [
   },
 ];
 
+// MOCK GET ALL OFFICES
 mock.onGet("/api/offices").reply(200, offices);
 
+// Mock POST ADD OFFICE
+mock.onPost("/api/offices").reply((config) => {
+  const newOffice = JSON.parse(config.data);
+  newOffice.id = offices.length + 1;
+  offices.push(newOffice);
+  return [200, newOffice];
+});
+
+// Mock GET OFFICE BY ID
+mock.onGet(/\/api\/offices\/\d+/).reply((config) => {
+  const officeId = parseInt(config.url.match(/\/api\/offices\/(\d+)/)[1]);
+  const office = offices.find((office) => office.id === officeId);
+  if (office) {
+    return [200, office];
+  } else {
+    return [404, { message: "Office not found" }];
+  }
+});
+
+// Mock PUT EDIT OFFICE
+mock.onPut(/\/api\/offices\/\d+/).reply((config) => {
+  const officeId = parseInt(config.url.match(/\/api\/offices\/(\d+)/)[1]);
+  const updatedOffice = JSON.parse(config.data);
+
+  const officeIndex = offices.findIndex((office) => office.id === officeId);
+  if (officeIndex !== -1) {
+    offices[officeIndex] = { ...offices[officeIndex], ...updatedOffice };
+    return [200, offices[officeIndex]];
+  } else {
+    return [404, { message: "Office not found" }];
+  }
+});
+
+// MOCK ADD STAFF MEMBER
 mock.onPost(/\/api\/offices\/\d+\/staff/).reply((config) => {
   const officeId = parseInt(
     config.url.match(/\/api\/offices\/(\d+)\/staff/)[1]
@@ -148,6 +183,7 @@ mock.onPost(/\/api\/offices\/\d+\/staff/).reply((config) => {
   }
 });
 
+// MOCK EDIT STAFF MEMBER
 mock.onPut(/\/api\/offices\/\d+\/staff\/\d+/).reply((config) => {
   const match = config.url.match(/\/api\/offices\/(\d+)\/staff\/(\d+)/);
   const officeId = parseInt(match[1]);

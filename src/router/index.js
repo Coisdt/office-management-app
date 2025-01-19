@@ -13,9 +13,10 @@ const routes = [
     props: true,
   },
   {
-    path: "/add-office",
-    name: "AddOffice",
-    component: () => import("../views/AddOfficePage.vue"),
+    path: "/office/:id?",
+    name: "AddOrEditOfficePage",
+    component: () => import("../views/AddOrEditOfficePage.vue"),
+    props: true,
   },
 ];
 

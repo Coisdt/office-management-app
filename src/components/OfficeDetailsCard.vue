@@ -1,30 +1,33 @@
 <template>
   <div
-    class="office-card bg-white shadow rounded-lg p-4 flex flex-col border-l-[12px]"
-    :style="{ borderColor: office.selectedColor }"
+    class="office-card bg-white shadow rounded-lg p-3 flex flex-col border-l-[12px]"
+    :style="{ borderColor: getColorById(office.selectedColor) }"
   >
     <!-- header -->
-    <div class="flex gap-3 items-center justify-between mb-4">
+    <div class="flex gap-3 items-center justify-between mb-2">
       <h2 class="text-xl font-semibold">{{ office.name }}</h2>
-      <font-awesome-icon icon="pencil" />
+      <font-awesome-icon
+        icon="pencil"
+        @click.stop="navigateToEditOfficePage(office.id)"
+      />
     </div>
 
     <!-- office occupants -->
     <div>
       <font-awesome-icon :icon="['fas', 'users']" />
-      <span class="text-sm text-gray-600 mb-4 ml-2 font-bold">
+      <span class="text-sm text-gray-600 mb-2 ml-2 font-bold">
         {{ office.staffMembersInOffice.length || 0 }}
       </span>
-      <span class="text-sm text-gray-600 mb-4 ml-2"
+      <span class="text-sm text-gray-600 mb-2 ml-2"
         >Staff Members in Office</span
       >
     </div>
 
     <!-- Divider line -->
-    <hr class="border-gray-400 my-4" />
+    <hr class="border-gray-400 my-2" />
 
     <!-- More Info Toggle -->
-    <div class="grid items-center mt-2">
+    <div class="grid items-center mt-1">
       <div class="flex justify-center">
         <button
           class="text-xs justify-self-center"
@@ -71,9 +74,11 @@
 
 <script setup>
 import { ref } from "vue";
+import { colorsPickerColors } from "../assets/colors/colorsPickerColors";
+import { useRouter } from "vue-router";
 
 //TODO: add color picker to create office screen and save selected color
-defineProps({
+const props = defineProps({
   office: {
     type: Object,
     required: true,
@@ -82,6 +87,31 @@ defineProps({
 });
 
 const toggleMoreInfo = ref(false);
+const router = useRouter();
+const isEditMode = ref(false);
+
+//methods
+const getColorById = (colorId) => {
+  const colorObject = colorsPickerColors.find((color) => color.id === colorId);
+  return colorObject ? colorObject.color : null;
+};
+
+const navigateToEditOfficePage = (officeId) => {
+  router.push({
+    name: "AddOrEditOfficePage",
+    params: { id: officeId },
+    query: { mode: "edit" },
+  });
+};
+
+// Methods to open and close the interconnected modals
+function editOffice() {
+  console.log("Edit Office");
+  isEditMode.value = true;
+  console.log(isEditMode.value);
+
+  navigateToAddOfficePage(props.office);
+}
 </script>
 
 <style scoped>

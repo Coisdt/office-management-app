@@ -1,5 +1,6 @@
 <template>
   <div class="office-details-page">
+    <!-- navigation -->
     <span class="navigation relative">
       <font-awesome-icon
         @click="navigateToHome"
@@ -25,8 +26,8 @@ import { useStore } from "vuex";
 import OfficeDetailsCard from "../components/OfficeDetailsCard.vue";
 import StaffInOfficeList from "../components/StaffInOfficeList.vue";
 import ActionButton from "../components/buttons/ActionButton.vue";
-import Modal from "../components/modals/Modal.vue";
-import FormModal from "../components/modals/FormModal.vue";
+import Modal from "../components/modals/BaseModal.vue";
+import FormModal from "../components/modals/AddOrEditStaffModal.vue";
 
 const isOpen = ref(false);
 const router = useRouter();

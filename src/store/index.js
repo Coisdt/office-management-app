@@ -12,6 +12,25 @@ const store = createStore({
     setOffices(state, offices) {
       state.offices = offices;
     },
+    ADD_OFFICE(state, office) {
+      state.offices.push(office);
+    },
+    EDIT_OFFICE(state, updatedOffice) {
+      const index = state.offices.findIndex(
+        (office) => office.id === updatedOffice.id
+      );
+      if (index !== -1) {
+        state.offices.splice(index, 1, updatedOffice);
+      }
+    },
+    SET_OFFICE(state, office) {
+      const index = state.offices.findIndex((o) => o.id === office.id);
+      if (index !== -1) {
+        state.offices.splice(index, 1, office);
+      } else {
+        state.offices.push(office);
+      }
+    },
     setLoading(state, isLoading) {
       state.loading = isLoading;
     },
@@ -54,6 +73,36 @@ const store = createStore({
         commit("setError", error.message || "Failed to fetch offices");
       } finally {
         commit("setLoading", false);
+      }
+    },
+    async addOffice({ commit }, { office }) {
+      try {
+        await axios.post("/api/offices", office);
+        commit("ADD_OFFICE", office);
+      } catch (error) {
+        console.error("Failed to add office", error);
+      }
+    },
+    async fetchOfficeById({ commit }, officeId) {
+      try {
+        const response = await axios.get(`/api/offices/${officeId}`);
+        commit("SET_OFFICE", response.data);
+        return response.data;
+      } catch (error) {
+        console.error("Error fetching office:", error);
+        throw error;
+      }
+    },
+    async editOffice({ commit }, { officeId, office }) {
+      console.log("Editing office:", office);
+      try {
+        const response = await axios.put(`/api/offices/${officeId}`, office);
+        console.log("Office edited:", response.data);
+
+        commit("EDIT_OFFICE", response.data);
+      } catch (error) {
+        console.error("Error editing office:", error);
+        throw error;
       }
     },
     async addStaffMember({ commit }, { officeId, staffMember }) {

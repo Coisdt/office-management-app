@@ -2,10 +2,7 @@
   <div class="home-page">
     <h1 class="text-2xl font-bold mb-4">All Offices</h1>
     <OfficeDetailsList :offices="offices" />
-    <ActionButton @click="isOpen = true" />
-    <Modal v-if="isOpen">
-      <!-- <FormModal @close="isOpen = false" /> -->
-    </Modal>
+    <ActionButton @click="navigateToAddOfficePage" />
   </div>
 </template>
 
@@ -14,8 +11,17 @@ import { onMounted, computed, ref } from "vue";
 import { useStore } from "vuex";
 import OfficeDetailsList from "../components/OfficeDetailsList.vue";
 import ActionButton from "../components/buttons/ActionButton.vue";
-import Modal from "../components/modals/Modal.vue";
-import FormModal from "../components/modals/FormModal.vue";
+
+import { useRouter, useRoute } from "vue-router";
+
+const router = useRouter();
+
+const navigateToAddOfficePage = () => {
+  router.push({
+    name: "AddOrEditOfficePage",
+    query: { mode: "add" },
+  });
+};
 
 const store = useStore();
 const isOpen = ref(false);

@@ -103,7 +103,6 @@ const firstName = ref("");
 const lastName = ref("");
 const imageId = ref("");
 
-// Store
 const store = useStore();
 
 // Watch for changes in the staffMember prop

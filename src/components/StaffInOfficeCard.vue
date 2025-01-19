@@ -35,9 +35,10 @@
 <script setup>
 import { ref } from "vue";
 import avatars from "../assets/avatars/avatars.js";
-import Modal from "../components/modals/Modal.vue";
+import Modal from "./modals/BaseModal.vue";
 import OptionsModal from "./modals/OptionsModal.vue";
-import FormModal from "./modals/FormModal.vue";
+import FormModal from "./modals/AddOrEditStaffModal.vue";
+import AddOrEditOfficePage from "../views/AddOrEditOfficePage.vue";
 
 let props = defineProps({
   staffMember: {
@@ -61,7 +62,6 @@ const getAvatarPath = (imageId) => {
   return avatars[imageId].src;
 };
 
-// Methods to open and close the interconnected modals
 const openModal = () => {
   isOpen.value = true;
   isOptionsModalVisible.value = true;
