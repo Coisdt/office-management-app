@@ -152,12 +152,12 @@ async function submitForm() {
         officeId: props.office.id,
         staffMember: staffMemberData,
       });
+      await store.dispatch("fetchOffices");
     }
 
-    // Success feedback
+    // TODO: Success toast
     console.log("Form submitted", staffMemberData);
     emit("close");
-    await store.dispatch("fetchOffices");
   } catch (error) {
     console.error("Failed to submit form", error);
   }

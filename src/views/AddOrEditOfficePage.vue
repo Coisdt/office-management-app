@@ -171,6 +171,8 @@ async function addOrEditOffice() {
       store.dispatch("addOffice", {
         office: officeData,
       });
+
+      //TODO: toast
     }
 
     await store.dispatch("fetchOffices");
@@ -183,13 +185,17 @@ async function addOrEditOffice() {
   // toast for successful creation
 }
 
-function deleteOffice() {
+async function deleteOffice() {
   console.log("Deleting office");
 
-  // if (props.id) {
-  //   store.dispatch("deleteOffice", props.id);
-  //   navigateToHome();
-  // }
+  if (props.id) {
+    try {
+      await store.dispatch("deleteOffice", props.id);
+      navigateToHome();
+    } catch (error) {
+      console.error("Error deleting office:", error);
+    }
+  }
 }
 
 const navigateToHome = () => {

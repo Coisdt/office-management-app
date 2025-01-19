@@ -4,7 +4,7 @@
       <div class="modal-content w-[90%] md:w-[50%] lg:w-[40%] relative">
         <span
           v-if="props.showCloseButton"
-          class="close absolute right-2 top-2 border border-black rounded-full shadow-lg size-6"
+          class="float-right close absolute right-2 top-2 border border-black rounded-full shadow-lg size-6"
           @click="closeModal"
         >
           <font-awesome-icon

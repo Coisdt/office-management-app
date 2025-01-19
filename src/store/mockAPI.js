@@ -166,6 +166,44 @@ mock.onPut(/\/api\/offices\/\d+/).reply((config) => {
   }
 });
 
+// MOCK DELETE STAFF MEMBER
+mock.onDelete(/\/api\/offices\/\d+\/staff\/\d+/).reply((config) => {
+  const match = config.url.match(/\/api\/offices\/(\d+)\/staff\/(\d+)/);
+  const officeId = parseInt(match[1]);
+  const staffMemberId = parseInt(match[2]);
+
+  const office = offices.find((office) => office.id === officeId);
+  console.log("office in axios:", office);
+
+  if (office) {
+    const staffMemberIndex = office.staffMembersInOffice.findIndex(
+      (staff) => staff.id === staffMemberId
+    );
+    if (staffMemberIndex !== -1) {
+      office.staffMembersInOffice.splice(staffMemberIndex, 1);
+      return [200];
+    } else {
+      return [404, { message: "Staff member not found" }];
+    }
+  } else {
+    return [404, { message: "Office not found" }];
+  }
+});
+
+// Mock DELETE OFFICE
+mock.onDelete(/\/api\/offices\/\d+/).reply((config) => {
+  console.log("for some reason this is running ********");
+
+  const officeId = parseInt(config.url.match(/\/api\/offices\/(\d+)/)[1]);
+  const officeIndex = offices.findIndex((office) => office.id === officeId);
+  if (officeIndex !== -1) {
+    offices.splice(officeIndex, 1);
+    return [200];
+  } else {
+    return [404, { message: "Office not found" }];
+  }
+});
+
 // MOCK ADD STAFF MEMBER
 mock.onPost(/\/api\/offices\/\d+\/staff/).reply((config) => {
   const officeId = parseInt(
@@ -208,4 +246,5 @@ mock.onPut(/\/api\/offices\/\d+\/staff\/\d+/).reply((config) => {
     return [404, { message: "Office not found" }];
   }
 });
+
 export { offices };

@@ -9,23 +9,47 @@
       {{ staffMember.firstName }} {{ staffMember.lastName }}
     </h2>
     <font-awesome-icon
-      @click="openModal"
+      @click="openOptionsModal"
       class="absolute right-0 cursor-pointer"
       :icon="['fas', 'ellipsis-v']"
     />
 
-    <Modal v-if="isOpen" @close="closeModal">
+    <Modal
+      v-if="isOptionsModalOpen"
+      @close="closeOptionsModal"
+      :showCloseButton="false"
+    >
       <div>
         <OptionsModal
-          v-if="isOptionsModalVisible"
           @close="closeOptionsModal"
-          @open-new-modal="openNewModal"
+          @open-edit-modal="openEditModal"
+          @open-confirmation-modal="openConfirmationModal"
+          :office="props.office"
+          :staffMember="props.staffMember"
         />
+      </div>
+    </Modal>
+
+    <Modal v-if="isEditModalOpen" @close="closeEditModal">
+      <div>
         <FormModal
+          @close="closeEditModal"
           :staffMember="staffMember"
           :office="props.office"
-          v-if="isNewModalVisible"
-          @close="closeNewModal"
+        />
+      </div>
+    </Modal>
+
+    <Modal
+      v-if="isConfirmationModalOpen"
+      @close="closeConfirmationModal"
+      :showCloseButton="false"
+    >
+      <div>
+        <ConfirmationModal
+          @close="closeConfirmationModal"
+          @confirm="deleteStaffMember"
+          message="Are you sure you want to delete this staff member?"
         />
       </div>
     </Modal>
@@ -38,7 +62,8 @@ import avatars from "../assets/avatars/avatars.js";
 import Modal from "./modals/BaseModal.vue";
 import OptionsModal from "./modals/OptionsModal.vue";
 import FormModal from "./modals/AddOrEditStaffModal.vue";
-import AddOrEditOfficePage from "../views/AddOrEditOfficePage.vue";
+import ConfirmationModal from "./modals/ConfirmationModal.vue";
+import { useStore } from "vuex";
 
 let props = defineProps({
   staffMember: {
@@ -53,39 +78,56 @@ let props = defineProps({
   },
 });
 
-const isOpen = ref(false);
-const isOptionsModalVisible = ref(true);
-const isNewModalVisible = ref(false);
+const isOptionsModalOpen = ref(false);
+const isEditModalOpen = ref(false);
+const isConfirmationModalOpen = ref(false);
+const store = useStore();
 
 // Method to map the ID to the image path
 const getAvatarPath = (imageId) => {
   return avatars[imageId].src;
 };
 
-const openModal = () => {
-  isOpen.value = true;
-  isOptionsModalVisible.value = true;
+const openOptionsModal = () => {
+  isOptionsModalOpen.value = true;
 };
 
 const closeOptionsModal = () => {
-  isOptionsModalVisible.value = false;
+  isOptionsModalOpen.value = false;
 };
 
-const openNewModal = () => {
-  isOptionsModalVisible.value = false;
-  isNewModalVisible.value = true;
+const openEditModal = () => {
+  isOptionsModalOpen.value = false;
+  isEditModalOpen.value = true;
 };
 
-const closeNewModal = () => {
-  isNewModalVisible.value = false;
-  isOpen.value = false;
+const closeEditModal = () => {
+  isEditModalOpen.value = false;
 };
 
-const closeModal = () => {
-  isOpen.value = false;
-  isOptionsModalVisible.value = false;
-  isNewModalVisible.value = false;
+const openConfirmationModal = () => {
+  isOptionsModalOpen.value = false;
+  isConfirmationModalOpen.value = true;
+};
+
+const closeConfirmationModal = () => {
+  isConfirmationModalOpen.value = false;
+};
+
+const deleteStaffMember = async () => {
+  console.log("Deleting staff member");
+
+  if (props.staffMember && props.office) {
+    try {
+      await store.dispatch("deleteStaffMember", {
+        officeId: props.office.id,
+        staffMemberId: props.staffMember.id,
+      });
+      console.log("Staff member deleted");
+      closeConfirmationModal();
+    } catch (error) {
+      console.error("Error deleting staff member:", error);
+    }
+  }
 };
 </script>
-
-<style scoped></style>

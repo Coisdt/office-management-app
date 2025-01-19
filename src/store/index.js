@@ -31,8 +31,23 @@ const store = createStore({
         state.offices.push(office);
       }
     },
+    DELETE_OFFICE(state, officeId) {
+      state.offices = state.offices.filter((office) => office.id !== officeId);
+    },
+    DELETE_STAFF_MEMBER(state, { officeId, staffMemberId }) {
+      const office = state.offices.find((office) => office.id === officeId);
+      if (office) {
+        office.staffMembersInOffice = office.staffMembersInOffice.filter(
+          (staffMember) => staffMember.id !== staffMemberId
+        );
+      }
+    },
     setLoading(state, isLoading) {
+      console.log("Setting loading to:", isLoading);
+
       state.loading = isLoading;
+
+      console.log("Loading is now:", state.loading);
     },
     setError(state, error) {
       state.error = error;
@@ -63,16 +78,24 @@ const store = createStore({
     async fetchOffices({ commit }) {
       commit("setLoading", true);
       commit("setError", null); // Reset error
-      try {
-        const response = await axios.get("/api/offices");
-        console.log("Data fetched:", response.data);
 
+      try {
+        // Simulate delay
+        const response = await new Promise((resolve) => {
+          setTimeout(async () => {
+            const res = await axios.get("/api/offices");
+            resolve(res);
+          }, 500); // Delay for 3 seconds
+        });
+
+        console.log("Data fetched:", response.data);
         commit("setOffices", response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
         commit("setError", error.message || "Failed to fetch offices");
       } finally {
         commit("setLoading", false);
+        console.log("setLoading committed: false");
       }
     },
     async addOffice({ commit }, { office }) {
@@ -81,6 +104,15 @@ const store = createStore({
         commit("ADD_OFFICE", office);
       } catch (error) {
         console.error("Failed to add office", error);
+      }
+    },
+    async deleteStaffMember({ commit }, { officeId, staffMemberId }) {
+      try {
+        await axios.delete(`/api/offices/${officeId}/staff/${staffMemberId}`);
+        commit("DELETE_STAFF_MEMBER", { officeId, staffMemberId });
+      } catch (error) {
+        console.error("Error deleting staff member:", error);
+        throw error;
       }
     },
     async fetchOfficeById({ commit }, officeId) {
@@ -102,6 +134,15 @@ const store = createStore({
         commit("EDIT_OFFICE", response.data);
       } catch (error) {
         console.error("Error editing office:", error);
+        throw error;
+      }
+    },
+    async deleteOffice({ commit }, officeId) {
+      try {
+        await axios.delete(`/api/offices/${officeId}`);
+        commit("DELETE_OFFICE", officeId);
+      } catch (error) {
+        console.error("Error deleting office:", error);
         throw error;
       }
     },

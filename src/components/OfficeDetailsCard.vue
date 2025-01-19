@@ -88,7 +88,6 @@ const props = defineProps({
 
 const toggleMoreInfo = ref(false);
 const router = useRouter();
-const isEditMode = ref(false);
 
 //methods
 const getColorById = (colorId) => {
@@ -103,15 +102,6 @@ const navigateToEditOfficePage = (officeId) => {
     query: { mode: "edit" },
   });
 };
-
-// Methods to open and close the interconnected modals
-function editOffice() {
-  console.log("Edit Office");
-  isEditMode.value = true;
-  console.log(isEditMode.value);
-
-  navigateToAddOfficePage(props.office);
-}
 </script>
 
 <style scoped>
