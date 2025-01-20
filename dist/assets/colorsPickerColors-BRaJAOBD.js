@@ -1,1 +1,0 @@
-const o=[{id:1,color:"#FFBE0B"},{id:2,color:"#FF9B71"},{id:3,color:"#FB5607"},{id:4,color:"#97512C"},{id:5,color:"#DBBADD"},{id:6,color:"#FF006E"},{id:7,color:"#A9F0D1"},{id:8,color:"#00B402"},{id:9,color:"#489DDA"},{id:10,color:"#0072E8"},{id:11,color:"#8338EC"}];export{o as c};
