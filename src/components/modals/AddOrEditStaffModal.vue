@@ -5,10 +5,13 @@
     </h2>
 
     <!-- Form Slide -->
-    <form class="p-3" @submit.prevent="handleSubmit">
+    <form
+      @submit.prevent="handleSubmit"
+      class="md:w-[70%] lg:w-[70%] items-center my-0 mx-auto p-3"
+    >
       <div class="form-group my-2 bg-white rounded-md h-10 grid items-center">
         <input
-          class="ml-2"
+          class="ml-2 w-[90%]"
           type="text"
           id="firstName"
           required
@@ -18,7 +21,7 @@
       </div>
       <div class="form-group my-2 bg-white rounded-md h-10 grid items-center">
         <input
-          class="ml-2"
+          class="ml-2 w-[90%]"
           type="text"
           id="lastName"
           required
@@ -35,7 +38,8 @@
     <!-- Next Slide -->
     <div class="modal-actions mt-4">
       <FormButton
-        :text="props.staffMember ? 'NEXT' : 'ADD STAFF MEMBER'"
+        :text="'NEXT'"
+        :backgroundColor="'#489DDA'"
         @click="toggleNextSlide"
       />
     </div>
@@ -53,7 +57,9 @@
       </h2>
     </span>
 
-    <div class="avatars-container p-4">
+    <div
+      class="avatars-container p-4 grid grid-cols-2 items-center my-0 mx-auto"
+    >
       <div
         v-for="avatar in avatars"
         :key="avatar.id"
@@ -66,18 +72,28 @@
         />
       </div>
     </div>
+
+    <!-- carousel icons -->
     <div class="carousel-dots mb-4">
       <span class="dot"></span>
       <span class="dot active"></span>
     </div>
+
+    <!-- show Empty Fields Error -->
+    <div class="text-red-500 text-center" v-show="showEmptyFieldsError">
+      Please complete all required fields
+    </div>
+
+    <!-- action buttons -->
     <FormButton
       :text="props.staffMember ? 'UPDATE STAFF MEMBER' : 'ADD STAFF MEMBER'"
+      :backgroundColor="'#489DDA'"
       @click="submitForm"
     />
   </div>
 </template>
 <script setup>
-import { defineEmits, ref, watch } from "vue";
+import { defineEmits, ref, watch, computed } from "vue";
 import FormButton from "../buttons/FormButton.vue";
 import { useStore } from "vuex";
 import avatars from "../../assets/avatars/avatars.js";
@@ -102,8 +118,17 @@ const nextSlide = ref(true);
 const firstName = ref("");
 const lastName = ref("");
 const imageId = ref("");
+const showEmptyFieldsError = ref(false);
 
 const store = useStore();
+
+const isFormValid = computed(() => {
+  return (
+    firstName.value.trim() !== "" &&
+    lastName.value.trim() !== "" &&
+    imageId.value !== ""
+  );
+});
 
 // Watch for changes in the staffMember prop
 watch(
@@ -132,6 +157,11 @@ function toggleNextSlide() {
 }
 
 async function submitForm() {
+  if (!isFormValid.value) {
+    showEmptyFieldsError.value = true;
+    return;
+  }
+
   const staffMemberData = {
     firstName: firstName.value,
     lastName: lastName.value,

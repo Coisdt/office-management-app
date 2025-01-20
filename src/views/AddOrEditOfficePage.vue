@@ -1,5 +1,5 @@
 <template>
-  <div class="add-office-page">
+  <div class="add-office-page md:w-1/2 mx-auto">
     <!-- navigation -->
     <span class="navigation relative">
       <font-awesome-icon
@@ -84,13 +84,13 @@
     <div class="modal-actions mt-5">
       <FormButton
         :text="isEditMode ? 'UPDATE OFFICE' : 'ADD OFFICE'"
+        :backgroundColor="'#489DDA'"
         @click="addOrEditOffice"
       />
       <FormButton
         :text="isEditMode ? 'DELETE OFFICE' : 'CANCEL'"
-        @click="deleteOffice"
-        :backgroundColor="'white'"
-        :fontColor="'default'"
+        @click="isEditMode ? deleteOffice() : navigateToHome()"
+        :fontColor="'#489DDA'"
         class="mt-2"
       />
     </div>

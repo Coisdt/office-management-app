@@ -1,6 +1,6 @@
 <template>
   <div
-    class="office-card bg-white shadow rounded-lg p-3 flex flex-col border-l-[12px]"
+    class="office-card bg-white shadow rounded-lg p-3 flex flex-col border-l-[12px] md:max-w-[18rem]"
     :style="{ borderColor: getColorById(office.selectedColor) }"
   >
     <!-- header -->
@@ -9,6 +9,7 @@
       <font-awesome-icon
         icon="pencil"
         @click.stop="navigateToEditOfficePage(office.id)"
+        class="hover:scale-125 cursor-pointer"
       />
     </div>
 
@@ -26,7 +27,7 @@
     <!-- Divider line -->
     <hr class="border-gray-400 my-2" />
 
-    <!-- More Info Toggle -->
+    <!-- More Info Toggle button -->
     <div class="grid items-center mt-1">
       <div class="flex justify-center">
         <button
@@ -40,27 +41,24 @@
           class="ml-2 text-gray-500"
         />
       </div>
-
+      <!-- more info container -->
       <transition name="fade">
         <div v-if="toggleMoreInfo" class="grid gap-4 text-sm mt-4">
           <div class="grid grid-cols-1 gap-4 text-xs">
             <div class="grid grid-cols-[20px_1fr] items-center">
-              <font-awesome-icon icon="phone" class="mr-2 text-gray-600" />
+              <font-awesome-icon icon="phone" class="icon mr-2" />
               {{ office.phoneNumber || "N/A" }}
             </div>
             <div class="grid grid-cols-[20px_1fr] items-center">
-              <font-awesome-icon icon="envelope" class="mr-2 text-gray-600" />
+              <font-awesome-icon icon="envelope" class="icon mr-2" />
               {{ office.email || "N/A" }}
             </div>
             <div class="grid grid-cols-[20px_1fr] items-center">
-              <font-awesome-icon icon="building" class="mr-2 text-gray-600" />
+              <font-awesome-icon icon="building" class="icon mr-2" />
               Capacity: {{ office.capacity || "N/A" }}
             </div>
             <div class="grid grid-cols-[20px_1fr] items-center">
-              <font-awesome-icon
-                icon="map-marker-alt"
-                class="mr-2 text-gray-600"
-              />
+              <font-awesome-icon icon="map-marker-alt" class="icon mr-2" />
               {{ office.address || "N/A" }}
             </div>
           </div>
@@ -112,5 +110,9 @@ const navigateToEditOfficePage = (officeId) => {
 .office-card:hover {
   transform: scale(1.02);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+  color: var(--primary);
 }
 </style>

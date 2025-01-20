@@ -1,9 +1,12 @@
 <template>
   <div class="grid gap-2">
-    <FormButton :text="'EDIT STAFF MEMBER'" @click="editStaffMember" />
+    <FormButton
+      :text="'EDIT STAFF MEMBER'"
+      :backgroundColor="'#489DDA'"
+      @click="editStaffMember"
+    />
     <FormButton
       :text="'DELETE STAFF MEMBER'"
-      :backgroundColor="'white'"
       :fontColor="'red'"
       @click="openConfirmationModal"
     />

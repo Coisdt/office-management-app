@@ -1,8 +1,10 @@
 <template>
   <div class="home-page">
-    <h1 class="text-2xl font-bold mb-4">All Offices</h1>
+    <div class="grid grid-cols-[1fr,auto] items-center mb-4">
+      <h1 class="text-2xl font-bold mb-4">All Offices</h1>
+      <ActionButton @click="navigateToAddOfficePage" :text="'Add Office'" />
+    </div>
     <OfficeDetailsList :offices="offices" />
-    <ActionButton @click="navigateToAddOfficePage" />
   </div>
 </template>
 

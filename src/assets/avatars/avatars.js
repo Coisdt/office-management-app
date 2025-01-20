@@ -1,28 +1,31 @@
 const avatars = [
   {
     id: 1,
-    src: new URL("../avatars/avatarImages/girl.png", import.meta.url).href,
+    src: new URL("../avatars/avatarImages/Avatar1.png", import.meta.url).href,
   },
   {
     id: 2,
-    src: new URL("../avatars/avatarImages/hacker.png", import.meta.url).href,
+    src: new URL("../avatars/avatarImages/Avatar2.png", import.meta.url).href,
   },
   {
     id: 3,
-    src: new URL("../avatars/avatarImages/man.png", import.meta.url).href,
+    src: new URL("../avatars/avatarImages/Avatar3.png", import.meta.url).href,
   },
   {
     id: 4,
-    src: new URL("../avatars/avatarImages/office-man.png", import.meta.url)
-      .href,
+    src: new URL("../avatars/avatarImages/Avatar4.png", import.meta.url).href,
   },
   {
     id: 5,
-    src: new URL("../avatars/avatarImages/woman.png", import.meta.url).href,
+    src: new URL("../avatars/avatarImages/Avatar5.png", import.meta.url).href,
   },
   {
     id: 6,
-    src: new URL("../avatars/avatarImages/woman1.png", import.meta.url).href,
+    src: new URL("../avatars/avatarImages/Avatar6.png", import.meta.url).href,
+  },
+  {
+    id: 7,
+    src: new URL("../avatars/avatarImages/Avatar7.png", import.meta.url).href,
   },
 ];
 

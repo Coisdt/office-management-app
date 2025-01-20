@@ -1,7 +1,9 @@
 <template>
   <Teleport to="#modals">
     <div class="modal">
-      <div class="modal-content w-[90%] md:w-[50%] lg:w-[40%] relative">
+      <div
+        class="modal-content w-[90%] sm:w-[80%] md:w-[60%] lg:w-[30%] xl:w-[30%] max-h-[90vh] overflow-auto grid grid-cols-1 relative"
+      >
         <span
           v-if="props.showCloseButton"
           class="float-right close absolute right-2 top-2 border border-black rounded-full shadow-lg size-6"

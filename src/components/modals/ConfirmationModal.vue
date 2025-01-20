@@ -1,6 +1,6 @@
 <template>
   <div class="confirmation-modal">
-    <div class="grid grid-cols-[1fr_auto] gap-3 items-baseline">
+    <div class="grid grid-cols-[auto_auto] gap-3 items-baseline">
       <font-awesome-icon
         class="cursor-pointer mt-2"
         @click="navigateBack"
@@ -9,7 +9,7 @@
       <p class="font-bold">{{ message }}</p>
     </div>
 
-    <div class="buttons mt-5">
+    <div class="buttons grid gap-2 mt-5">
       <FormButton
         :text="'DELETE STAFF MEMBER'"
         :backgroundColor="'red'"
@@ -17,8 +17,7 @@
       />
       <FormButton
         :text="'KEEP STAFF MEMBER'"
-        :backgroundColor="'white'"
-        :fontColor="'default'"
+        :fontColor="'#489DDA'"
         @click="close"
       />
     </div>

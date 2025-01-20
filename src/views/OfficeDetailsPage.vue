@@ -1,18 +1,15 @@
 <template>
   <div class="office-details-page">
     <!-- navigation -->
-    <span class="navigation relative">
-      <font-awesome-icon
-        @click="navigateToHome"
-        class="absolute"
-        icon="arrow-left"
-      />
+    <span class="navigation grid grid-cols-[auto,1fr,auto] items-center mb-4">
+      <font-awesome-icon @click="navigateToHome" class="" icon="arrow-left" />
       <span class="grid justify-center">Office</span>
+      <ActionButton @click="isOpen = true" :text="'Add Staff Member'" />
     </span>
 
     <OfficeDetailsCard v-if="office" :office="office" class="mt-4" />
     <StaffInOfficeList v-if="office" :office="office" />
-    <ActionButton @click="isOpen = true" />
+
     <Modal v-if="isOpen" @close="isOpen = false">
       <FormModal :staffMember="null" :office="office" @close="isOpen = false" />
     </Modal>
