@@ -26,7 +26,6 @@ const navigateToAddOfficePage = () => {
 };
 
 const store = useStore();
-const isOpen = ref(false);
 
 // Map state and actions
 const offices = computed(() => store.state.offices);

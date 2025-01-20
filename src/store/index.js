@@ -43,11 +43,7 @@ const store = createStore({
       }
     },
     setLoading(state, isLoading) {
-      console.log("Setting loading to:", isLoading);
-
       state.loading = isLoading;
-
-      console.log("Loading is now:", state.loading);
     },
     setError(state, error) {
       state.error = error;
@@ -88,14 +84,12 @@ const store = createStore({
           }, 500); // Delay for 3 seconds
         });
 
-        console.log("Data fetched:", response.data);
         commit("setOffices", response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
         commit("setError", error.message || "Failed to fetch offices");
       } finally {
         commit("setLoading", false);
-        console.log("setLoading committed: false");
       }
     },
     async addOffice({ commit }, { office }) {
@@ -126,11 +120,8 @@ const store = createStore({
       }
     },
     async editOffice({ commit }, { officeId, office }) {
-      console.log("Editing office:", office);
       try {
         const response = await axios.put(`/api/offices/${officeId}`, office);
-        console.log("Office edited:", response.data);
-
         commit("EDIT_OFFICE", response.data);
       } catch (error) {
         console.error("Error editing office:", error);
@@ -167,6 +158,7 @@ const store = createStore({
         `/api/offices/${officeId}/staff/${staffMemberId}`,
         staffMember
       );
+
       commit("updateStaffMember", response.data);
     },
   },

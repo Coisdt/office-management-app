@@ -85,7 +85,7 @@
       <FormButton
         :text="isEditMode ? 'UPDATE OFFICE' : 'ADD OFFICE'"
         :backgroundColor="'#489DDA'"
-        @click="addOrEditOffice"
+        @click="addOrEditOffice()"
       />
       <FormButton
         :text="isEditMode ? 'DELETE OFFICE' : 'CANCEL'"
@@ -130,7 +130,6 @@ onMounted(async () => {
     const officeId = props.id;
     try {
       const office = await store.dispatch("fetchOfficeById", officeId);
-      console.log("Fetched office:", office);
       name.value = office.name || "";
       address.value = office.address || "";
       email.value = office.email || "";
@@ -159,9 +158,6 @@ async function addOrEditOffice() {
   try {
     if (isEditMode && props.id) {
       // Editing existing office
-      console.log("Editing office");
-      console.log("Office data:", officeData);
-
       store.dispatch("editOffice", {
         officeId: props.id,
         office: officeData,
@@ -171,8 +167,6 @@ async function addOrEditOffice() {
       store.dispatch("addOffice", {
         office: officeData,
       });
-
-      //TODO: toast
     }
 
     await store.dispatch("fetchOffices");
@@ -186,8 +180,6 @@ async function addOrEditOffice() {
 }
 
 async function deleteOffice() {
-  console.log("Deleting office");
-
   if (props.id) {
     try {
       await store.dispatch("deleteOffice", props.id);

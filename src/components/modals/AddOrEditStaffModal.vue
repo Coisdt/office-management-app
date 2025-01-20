@@ -109,7 +109,7 @@ const props = defineProps({
   },
   staffMember: {
     type: Object,
-    default: null, // Null when creating a new staff member
+    default: null, // null if creating a new staff member
   },
 });
 
@@ -130,7 +130,6 @@ const isFormValid = computed(() => {
   );
 });
 
-// Watch for changes in the staffMember prop
 watch(
   () => props.staffMember,
   (newVal) => {
@@ -144,7 +143,7 @@ watch(
       imageId.value = "";
     }
   },
-  { immediate: true } // Run immediately on component mount
+  { immediate: true }
 );
 
 // Methods
@@ -185,8 +184,6 @@ async function submitForm() {
       await store.dispatch("fetchOffices");
     }
 
-    // TODO: Success toast
-    console.log("Form submitted", staffMemberData);
     emit("close");
   } catch (error) {
     console.error("Failed to submit form", error);
@@ -205,7 +202,6 @@ async function submitForm() {
   height: 50px;
   object-fit: cover;
   border-radius: 50%;
-  /* border: 1px solid red; */
 }
 
 .avatar img:hover,

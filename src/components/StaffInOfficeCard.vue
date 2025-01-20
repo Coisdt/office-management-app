@@ -115,15 +115,12 @@ const closeConfirmationModal = () => {
 };
 
 const deleteStaffMember = async () => {
-  console.log("Deleting staff member");
-
   if (props.staffMember && props.office) {
     try {
       await store.dispatch("deleteStaffMember", {
         officeId: props.office.id,
         staffMemberId: props.staffMember.id,
       });
-      console.log("Staff member deleted");
       closeConfirmationModal();
     } catch (error) {
       console.error("Error deleting staff member:", error);

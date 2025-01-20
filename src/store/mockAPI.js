@@ -152,20 +152,6 @@ mock.onGet(/\/api\/offices\/\d+/).reply((config) => {
   }
 });
 
-// Mock PUT EDIT OFFICE
-mock.onPut(/\/api\/offices\/\d+/).reply((config) => {
-  const officeId = parseInt(config.url.match(/\/api\/offices\/(\d+)/)[1]);
-  const updatedOffice = JSON.parse(config.data);
-
-  const officeIndex = offices.findIndex((office) => office.id === officeId);
-  if (officeIndex !== -1) {
-    offices[officeIndex] = { ...offices[officeIndex], ...updatedOffice };
-    return [200, offices[officeIndex]];
-  } else {
-    return [404, { message: "Office not found" }];
-  }
-});
-
 // MOCK DELETE STAFF MEMBER
 mock.onDelete(/\/api\/offices\/\d+\/staff\/\d+/).reply((config) => {
   const match = config.url.match(/\/api\/offices\/(\d+)\/staff\/(\d+)/);
@@ -173,7 +159,6 @@ mock.onDelete(/\/api\/offices\/\d+\/staff\/\d+/).reply((config) => {
   const staffMemberId = parseInt(match[2]);
 
   const office = offices.find((office) => office.id === officeId);
-  console.log("office in axios:", office);
 
   if (office) {
     const staffMemberIndex = office.staffMembersInOffice.findIndex(
@@ -192,8 +177,6 @@ mock.onDelete(/\/api\/offices\/\d+\/staff\/\d+/).reply((config) => {
 
 // Mock DELETE OFFICE
 mock.onDelete(/\/api\/offices\/\d+/).reply((config) => {
-  console.log("for some reason this is running ********");
-
   const officeId = parseInt(config.url.match(/\/api\/offices\/(\d+)/)[1]);
   const officeIndex = offices.findIndex((office) => office.id === officeId);
   if (officeIndex !== -1) {
@@ -242,6 +225,20 @@ mock.onPut(/\/api\/offices\/\d+\/staff\/\d+/).reply((config) => {
     } else {
       return [404, { message: "Staff member not found" }];
     }
+  } else {
+    return [404, { message: "Office not found" }];
+  }
+});
+
+// Mock PUT EDIT OFFICE
+mock.onPut(/\/api\/offices\/\d+/).reply((config) => {
+  const officeId = parseInt(config.url.match(/\/api\/offices\/(\d+)/)[1]);
+  const updatedOffice = JSON.parse(config.data);
+
+  const officeIndex = offices.findIndex((office) => office.id === officeId);
+  if (officeIndex !== -1) {
+    offices[officeIndex] = { ...offices[officeIndex], ...updatedOffice };
+    return [200, offices[officeIndex]];
   } else {
     return [404, { message: "Office not found" }];
   }

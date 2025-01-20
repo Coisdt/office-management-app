@@ -14,16 +14,13 @@
 </template>
 
 <script setup>
-import { useStore } from "vuex";
 import FormButton from "../buttons/FormButton.vue";
 
 const emit = defineEmits([
   "close",
   "open-edit-modal",
   "open-confirmation-modal",
-]); //TODO: give specific emits to different modals esp ays one
-
-const store = useStore();
+]);
 
 let props = defineProps({
   staffMember: {
@@ -44,16 +41,13 @@ function editStaffMember() {
 }
 function closeCurrentModal() {
   emit("close");
-  console.log("Closing current modal");
 }
 function openNewModal() {
   emit("open-edit-modal");
-  console.log("open-edit-modal");
 }
 
 function openConfirmationModal() {
   emit("open-confirmation-modal");
-  console.log("Opening confirmation modal");
   closeCurrentModal();
 }
 

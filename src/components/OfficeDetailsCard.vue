@@ -75,7 +75,6 @@ import { ref } from "vue";
 import { colorsPickerColors } from "../assets/colors/colorsPickerColors";
 import { useRouter } from "vue-router";
 
-//TODO: add color picker to create office screen and save selected color
 const props = defineProps({
   office: {
     type: Object,

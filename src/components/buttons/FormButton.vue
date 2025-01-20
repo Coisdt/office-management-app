@@ -1,11 +1,10 @@
 <template>
-  <button :style="buttonStyle" @click="handleClick">
+  <button :style="buttonStyle">
     {{ text }}
   </button>
 </template>
 
 <script setup>
-import { width } from "@fortawesome/free-brands-svg-icons/fa42Group";
 import { computed } from "vue";
 
 const props = defineProps({
@@ -34,10 +33,6 @@ const buttonStyle = computed(() => ({
   display: "block",
   margin: "0 auto",
 }));
-
-const handleClick = () => {
-  console.log("Button clicked!");
-};
 </script>
 
 <style scoped>
